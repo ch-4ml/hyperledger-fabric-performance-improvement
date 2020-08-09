@@ -12,56 +12,32 @@ organizations:
     mspid: Org2MSP
     peers:
     - peer0.org2.example.com
-    - peer1.org2.example.com
     certificateAuthorities:
     - ca.org2.example.com
 peers:
   peer0.org2.example.com:
-    url: grpcs://localhost:9051
+    url: grpcs://localhost:10051
     tlsCACerts:
       pem: |
         -----BEGIN CERTIFICATE-----
-        MIICVzCCAf6gAwIBAgIRAJOAz9RDnkEbv7BRQ9D6ATMwCgYIKoZIzj0EAwIwdjEL
+        MIICVzCCAf6gAwIBAgIRAJY4oCwx6tPO3SvQUu9MoJswCgYIKoZIzj0EAwIwdjEL
         MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
         cmFuY2lzY28xGTAXBgNVBAoTEG9yZzIuZXhhbXBsZS5jb20xHzAdBgNVBAMTFnRs
-        c2NhLm9yZzIuZXhhbXBsZS5jb20wHhcNMjAwODA2MDMwMzAwWhcNMzAwODA0MDMw
+        c2NhLm9yZzIuZXhhbXBsZS5jb20wHhcNMjAwODA4MTE0MzAwWhcNMzAwODA2MTE0
         MzAwWjB2MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UE
         BxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEfMB0G
         A1UEAxMWdGxzY2Eub3JnMi5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49
-        AwEHA0IABKktSISIBcaeo/rWN4hox/iGaw9IKQDuhgXjet3XokWG6VmS9yct0JXV
-        9M3/mO1iCBiClxD5Y+1YZAurBb/UZ3ujbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNV
+        AwEHA0IABKsvwOh7SXFrd023+Q+EV6Jd3Vc4ifHx8EKGsmJy5PxddKXNI7fdAimX
+        CVpr4MRr05jHIQ/3ynqsb8H+1mp8jFajbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNV
         HSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNV
-        HQ4EIgQg7ore0q6MaNgwMSCtpmIA+JXk2OJ6oTvoKkSLlH8qTrMwCgYIKoZIzj0E
-        AwIDRwAwRAIgNgO4y6LVbxwtpBaPKpLkIkocy49VOMopusQi3QVejhcCICSTFJbZ
-        DbMUXVroTvNo2Xroq9QHINnpcTcGoTJRHLOL
+        HQ4EIgQgtemu+Q987EajYl/UHpslpxrFJzhG+fJ2AURO/JzKjpEwCgYIKoZIzj0E
+        AwIDRwAwRAIgaOxcPfjW4MKBwRyXXKXewkv5xXP+kYF6BEtOnuFtUhACIGz7ITpV
+        ZXGG35m9Y3Yn7Xqf9+ubn/suOtFX31dCPiug
         -----END CERTIFICATE-----
         
     grpcOptions:
       ssl-target-name-override: peer0.org2.example.com
       hostnameOverride: peer0.org2.example.com
-  peer1.org2.example.com:
-    url: grpcs://localhost:10051
-    tlsCACerts:
-      pem: |
-        -----BEGIN CERTIFICATE-----
-        MIICVzCCAf6gAwIBAgIRAJOAz9RDnkEbv7BRQ9D6ATMwCgYIKoZIzj0EAwIwdjEL
-        MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
-        cmFuY2lzY28xGTAXBgNVBAoTEG9yZzIuZXhhbXBsZS5jb20xHzAdBgNVBAMTFnRs
-        c2NhLm9yZzIuZXhhbXBsZS5jb20wHhcNMjAwODA2MDMwMzAwWhcNMzAwODA0MDMw
-        MzAwWjB2MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UE
-        BxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEfMB0G
-        A1UEAxMWdGxzY2Eub3JnMi5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49
-        AwEHA0IABKktSISIBcaeo/rWN4hox/iGaw9IKQDuhgXjet3XokWG6VmS9yct0JXV
-        9M3/mO1iCBiClxD5Y+1YZAurBb/UZ3ujbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNV
-        HSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNV
-        HQ4EIgQg7ore0q6MaNgwMSCtpmIA+JXk2OJ6oTvoKkSLlH8qTrMwCgYIKoZIzj0E
-        AwIDRwAwRAIgNgO4y6LVbxwtpBaPKpLkIkocy49VOMopusQi3QVejhcCICSTFJbZ
-        DbMUXVroTvNo2Xroq9QHINnpcTcGoTJRHLOL
-        -----END CERTIFICATE-----
-        
-    grpcOptions:
-      ssl-target-name-override: peer1.org2.example.com
-      hostnameOverride: peer1.org2.example.com
 certificateAuthorities:
   ca.org2.example.com:
     url: https://localhost:8054
@@ -69,19 +45,19 @@ certificateAuthorities:
     tlsCACerts:
       pem: |
         -----BEGIN CERTIFICATE-----
-        MIICUTCCAfegAwIBAgIQDKvo5Asm+E1+ULADPiaGkjAKBggqhkjOPQQDAjBzMQsw
+        MIICUDCCAfegAwIBAgIQKU4qDdGfXaPlrHVe9zNIUjAKBggqhkjOPQQDAjBzMQsw
         CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy
         YW5jaXNjbzEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu
-        b3JnMi5leGFtcGxlLmNvbTAeFw0yMDA4MDYwMzAzMDBaFw0zMDA4MDQwMzAzMDBa
+        b3JnMi5leGFtcGxlLmNvbTAeFw0yMDA4MDgxMTQzMDBaFw0zMDA4MDYxMTQzMDBa
         MHMxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T
         YW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmcyLmV4YW1wbGUuY29tMRwwGgYDVQQD
         ExNjYS5vcmcyLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE
-        aI6CVOQd4l0EHC4h8XX6JwOqsedhIkpXqmz4n9MxUwsESh1AGJleMIGUmLlcNFMf
-        uU6DuWxdklkfkfOnJQTRF6NtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1UdJQQWMBQG
-        CCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1UdDgQiBCDo
-        AQ4Itv24wzuG7h0vboj6BkboSov+tumoVweDiq+vrzAKBggqhkjOPQQDAgNIADBF
-        AiEAj50AbqXYGPpJb8u6cPmtfYSew/YseGiwJBMMv6ulowsCIAbRm3PDx9a+LhmJ
-        yJbPFIcyfgE6KeLuDINLz8/+j6Ag
+        VFc59ws8BYXYTSFM/y2GHwqelcKdeC1TYzzmW8SLZqDKYW1UZjtAdZqZySzPWxLH
+        QQfrx/YYQ6qFPYbklQI+L6NtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1UdJQQWMBQG
+        CCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1UdDgQiBCCH
+        j68xfi9D2J7HLhCbrGrsWI919LXCZlRXQdtGGCIOnDAKBggqhkjOPQQDAgNHADBE
+        AiBO5cJ3Ns2D8BozKqR1C5AhGAyiP3R02sgDxzcYfAwTtgIgQ1FHFL4ASiCEl1Sk
+        BKcGCGQ+nAYlEcQffGUTqXYXbqM=
         -----END CERTIFICATE-----
         
     httpOptions:

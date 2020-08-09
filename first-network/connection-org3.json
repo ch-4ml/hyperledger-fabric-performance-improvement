@@ -15,8 +15,10 @@
         "Org3": {
             "mspid": "Org3MSP",
             "peers": [
-                "peer0.org3.example.com",
-                "peer1.org3.example.com"
+                "peer0.org3.example.com"
+            ],
+            "certificateAuthorities": [
+                "ca.org3.example.com"
             ]
         }
     },
@@ -24,19 +26,23 @@
         "peer0.org3.example.com": {
             "url": "grpcs://localhost:11051",
             "tlsCACerts": {
-                "path": "org3-artifacts/crypto-config/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICVzCCAf6gAwIBAgIRAMAX8DS9AsM+f5ODqfDuWWAwCgYIKoZIzj0EAwIwdjEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xGTAXBgNVBAoTEG9yZzMuZXhhbXBsZS5jb20xHzAdBgNVBAMTFnRs\nc2NhLm9yZzMuZXhhbXBsZS5jb20wHhcNMjAwODA4MTE0MzAwWhcNMzAwODA2MTE0\nMzAwWjB2MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UE\nBxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEfMB0G\nA1UEAxMWdGxzY2Eub3JnMy5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49\nAwEHA0IABPVDFDrdm0gwFWym8eiTuuy2IthfPVHYfQAal+PQEe+ZAf2mBnXamkqs\n+H4ohy7H274zcVhOEs6PEsHNRdP+eRyjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNV\nHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNV\nHQ4EIgQgQtUT+VjnR6IA+6epHT95kTDBc0On96FSh2UUkJsX0WMwCgYIKoZIzj0E\nAwIDRwAwRAIgJcNhtnIXVvfKSwvg0d2HOJh2MAkqPVDIFa3hWBae3WICIClXVmp4\nu0KZTGgZcWO4gob8bTeYV0hSvLs81k8CSoRX\n-----END CERTIFICATE-----\n"
             },
             "grpcOptions": {
-                "ssl-target-name-override": "peer0.org3.example.com"
+                "ssl-target-name-override": "peer0.org3.example.com",
+                "hostnameOverride": "peer0.org3.example.com"
             }
-        },
-        "peer1.org3.example.com": {
-            "url": "grpcs://localhost:12051",
+        }
+    },
+    "certificateAuthorities": {
+        "ca.org3.example.com": {
+            "url": "https://localhost:9054",
+            "caName": "ca-org3",
             "tlsCACerts": {
-                "path": "org3-artifacts/crypto-config/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICUTCCAfegAwIBAgIQUYlDqK+GoVQ4cZ8E7zeGfDAKBggqhkjOPQQDAjBzMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMy5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu\nb3JnMy5leGFtcGxlLmNvbTAeFw0yMDA4MDgxMTQzMDBaFw0zMDA4MDYxMTQzMDBa\nMHMxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T\nYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmczLmV4YW1wbGUuY29tMRwwGgYDVQQD\nExNjYS5vcmczLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE\n7wkfoN5A4UO9rKUx7QKSWOFnfAbdAFSTQ5GcxGZsZ0bzB4T+nS2rQdVYB4vWxK/L\nHMsSkO1Kii59L3LzNaRqTKNtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1UdJQQWMBQG\nCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1UdDgQiBCB1\n6HJZdc4a/fFFqUC3LN5//+XQR1ue5kQmmSAdcrvplzAKBggqhkjOPQQDAgNIADBF\nAiEAhZqSteXV5TTxjx6IRI8fNASDF9Zi7dboNa9iga5DZbsCIH9IJRCqYnXG53LK\nTRpSXKmNAhXGjKJKCRgoG4OGvOGP\n-----END CERTIFICATE-----\n"
             },
-            "grpcOptions": {
-                "ssl-target-name-override": "peer1.org3.example.com"
+            "httpOptions": {
+                "verify": false
             }
         }
     }

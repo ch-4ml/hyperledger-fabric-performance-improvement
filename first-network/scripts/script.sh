@@ -60,13 +60,18 @@ createChannel() {
 }
 
 joinChannel () {
-	for org in 1 2; do
-	    for peer in 0 1; do
-		joinChannelWithRetry $peer $org
-		echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
-		sleep $DELAY
-		echo
-	    done
+	for org in 1 2 3; do
+		if [ $org -eq 1 ]; then
+			end=2
+		else
+			end=0
+		fi
+		for ((peer=0; peer<=$end; peer++)); do
+			joinChannelWithRetry $peer $org
+			echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
+			sleep $DELAY
+			echo
+		done
 	done
 }
 
@@ -83,6 +88,8 @@ echo "Updating anchor peers for org1..."
 updateAnchorPeers 0 1
 echo "Updating anchor peers for org2..."
 updateAnchorPeers 0 2
+echo "Updating anchor peers for org3..."
+updateAnchorPeers 0 3
 
 if [ "${NO_CHAINCODE}" != "true" ]; then
 
