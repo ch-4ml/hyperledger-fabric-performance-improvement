@@ -27,18 +27,18 @@ echo y | ./byfn.sh up -a -n -s couchdb -o etcdraft
 popd
 
 CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
-ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
-ORG1_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-ORG2_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
-ORG2_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
-ORG3_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
-ORG3_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
-ORDERER_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.dmc.ajou.ac.kr/users/Admin@org1.dmc.ajou.ac.kr/msp
+ORG1_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org1.dmc.ajou.ac.kr/peers/peer0.org1.dmc.ajou.ac.kr/tls/ca.crt
+ORG2_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org2.dmc.ajou.ac.kr/users/Admin@org2.dmc.ajou.ac.kr/msp
+ORG2_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org2.dmc.ajou.ac.kr/peers/peer0.org2.dmc.ajou.ac.kr/tls/ca.crt
+ORG3_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org3.dmc.ajou.ac.kr/users/Admin@org3.dmc.ajou.ac.kr/msp
+ORG3_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org3.dmc.ajou.ac.kr/peers/peer0.org3.dmc.ajou.ac.kr/tls/ca.crt
+ORDERER_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/ordererOrganizations/dmc.ajou.ac.kr/orderers/orderer.dmc.ajou.ac.kr/msp/tlscacerts/tlsca.dmc.ajou.ac.kr-cert.pem
 
-echo "Installing smart contract on peer0.org1.example.com"
+echo "Installing smart contract on peer0.org1.dmc.ajou.ac.kr"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
-  -e CORE_PEER_ADDRESS=peer0.org1.example.com:7051 \
+  -e CORE_PEER_ADDRESS=peer0.org1.dmc.ajou.ac.kr:7051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
@@ -48,10 +48,10 @@ docker exec \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
 
-echo "Installing smart contract on peer1.org1.example.com"
+echo "Installing smart contract on peer1.org1.dmc.ajou.ac.kr"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
-  -e CORE_PEER_ADDRESS=peer1.org1.example.com:8051 \
+  -e CORE_PEER_ADDRESS=peer1.org1.dmc.ajou.ac.kr:8051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
@@ -61,10 +61,10 @@ docker exec \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
 
-echo "Installing smart contract on peer2.org1.example.com"
+echo "Installing smart contract on peer2.org1.dmc.ajou.ac.kr"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
-  -e CORE_PEER_ADDRESS=peer2.org1.example.com:9051 \
+  -e CORE_PEER_ADDRESS=peer2.org1.dmc.ajou.ac.kr:9051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
@@ -74,10 +74,10 @@ docker exec \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
 
-echo "Installing smart contract on peer0.org2.example.com"
+echo "Installing smart contract on peer0.org2.dmc.ajou.ac.kr"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org2MSP \
-  -e CORE_PEER_ADDRESS=peer0.org2.example.com:10051 \
+  -e CORE_PEER_ADDRESS=peer0.org2.dmc.ajou.ac.kr:10051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG2_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
@@ -87,10 +87,10 @@ docker exec \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
 
-echo "Installing smart contract on peer0.org3.example.com"
+echo "Installing smart contract on peer0.org3.dmc.ajou.ac.kr"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org3MSP \
-  -e CORE_PEER_ADDRESS=peer0.org3.example.com:11051 \
+  -e CORE_PEER_ADDRESS=peer0.org3.dmc.ajou.ac.kr:11051 \
   -e CORE_PEER_MSPCONFIGPATH=${ORG3_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG3_TLS_ROOTCERT_FILE} \
   cli \
@@ -106,7 +106,7 @@ docker exec \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   cli \
   peer chaincode instantiate \
-    -o orderer.example.com:7050 \
+    -o orderer.dmc.ajou.ac.kr:7050 \
     -C mychannel \
     -n marblesp \
     -l "$CC_RUNTIME_LANGUAGE" \
@@ -116,7 +116,7 @@ docker exec \
     --tls \
     --collections-config /opt/gopath/src/github.com/chaincode/marbles02_private/collections_config.json\
     --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
-    --peerAddresses peer0.org1.example.com:7051 \
+    --peerAddresses peer0.org1.dmc.ajou.ac.kr:7051 \
     --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE}
 
 echo "Waiting for instantiation request to be committed ..."
