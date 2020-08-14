@@ -1,6 +1,6 @@
 {
     "peer_name": "peer0.org1.dmc.ajou.ac.kr",
-    "channelid": "mychannel",
+    "channelid": "dmcchannel",
     "use_couchdb":true,
     "create_history_log":true,
     "couchdb_address": "http://localhost:5984"

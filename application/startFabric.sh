@@ -100,14 +100,14 @@ docker exec \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
 
-echo "Instantiating smart contract on mychannel"
+echo "Instantiating smart contract on dmcchannel"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   cli \
   peer chaincode instantiate \
     -o orderer.dmc.ajou.ac.kr:7050 \
-    -C mychannel \
+    -C dmcchannel \
     -n marblesp \
     -l "$CC_RUNTIME_LANGUAGE" \
     -v 1.0 \

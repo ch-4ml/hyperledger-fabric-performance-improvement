@@ -26,7 +26,7 @@ function printHelp () {
   echo "      - 'down' - clear the network with docker-compose down"
   echo "      - 'restart' - restart the network"
   echo "      - 'generate' - generate required certificates and genesis block"
-  echo "    -c <channel name> - channel name to use (defaults to \"mychannel\")"
+  echo "    -c <channel name> - channel name to use (defaults to \"dmcchannel\")"
   echo "    -t <timeout> - CLI timeout duration in seconds (defaults to 10)"
   echo "    -d <delay> - delay duration in seconds (defaults to 3)"
   echo "    -f <docker-compose-file> - specify which docker-compose file use (defaults to docker-compose-cli.yaml)"
@@ -38,10 +38,10 @@ function printHelp () {
   echo "Typically, one would first generate the required certificates and "
   echo "genesis block, then bring up the network. e.g.:"
   echo
-  echo "	eyfn.sh generate -c mychannel"
-  echo "	eyfn.sh up -c mychannel -s couchdb"
+  echo "	eyfn.sh generate -c dmcchannel"
+  echo "	eyfn.sh up -c dmcchannel -s couchdb"
   echo "	eyfn.sh up -l node"
-  echo "	eyfn.sh down -c mychannel"
+  echo "	eyfn.sh down -c dmcchannel"
   echo
   echo "Taking all defaults:"
   echo "	eyfn.sh generate"
@@ -235,8 +235,8 @@ OS_ARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/window
 CLI_TIMEOUT=10
 #default for delay
 CLI_DELAY=3
-# channel name defaults to "mychannel"
-CHANNEL_NAME="mychannel"
+# channel name defaults to "dmcchannel"
+CHANNEL_NAME="dmcchannel"
 # use this as the default docker-compose yaml definition
 COMPOSE_FILE=docker-compose-cli.yaml
 #
