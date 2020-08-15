@@ -14,7 +14,7 @@ starttime=$(date +%s)
 CC_SRC_LANGUAGE=${1:-"go"}
 CC_SRC_LANGUAGE=`echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:]`
 CC_RUNTIME_LANGUAGE=golang
-CC_SRC_PATH=github.com/chaincode/go
+CC_SRC_PATH=github.com/chaincode/plants_private/go
 
 
 # clean the keystore
@@ -112,9 +112,9 @@ docker exec \
     -l "$CC_RUNTIME_LANGUAGE" \
     -v 1.0 \
     -c '{"Args":["init"]}' \
-    -P "OR('Org1MSP.member','Org2MSP.member')" \
+    -P "OR('Org1MSP.member','Org2MSP.member','Org3MSP.member')" \
     --tls \
-    --collections-config /opt/gopath/src/github.com/chaincode/collections_config.json\
+    --collections-config /opt/gopath/src/github.com/chaincode/plants_private/collections_config.json \
     --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
     --peerAddresses peer0.org1.dmc.ajou.ac.kr:7051 \
     --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE}
