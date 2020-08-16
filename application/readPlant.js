@@ -7,21 +7,21 @@
 
 /*
  *
- * addMarbles.js will add random sample data to blockchain.
+ * addPlants.js will add random sample data to blockchain.
  *
- *    $ node addMarbles.js
+ *    $ node addPlants.js
  *
- * addMarbles will add 10 marbles by default with a starting marble name of "marble100".
- * Additional marbles will be added by incrementing the number at the end of the marble name.
+ * addPlants will add 10 plants by default with a starting plant name of "plant100".
+ * Additional plants will be added by incrementing the number at the end of the plant name.
  *
- * The properties for adding marbles are stored in addMarbles.json.  This file will be created
+ * The properties for adding plants are stored in addPlants.json.  This file will be created
  * during the first execution of the utility if it does not exist.  The utility can be run
- * multiple times without changing the properties.  The nextMarbleNumber will be incremented and
+ * multiple times without changing the properties.  The nextPlantNumber will be incremented and
  * stored in the JSON file.
  *
  *    {
- *        "nextMarbleNumber": 100,
- *        "numberMarblesToAdd": 10
+ *        "nextPlantNumber": 100,
+ *        "numberPlantsToAdd": 10
  *    }
  *
  */
@@ -57,9 +57,9 @@ async function main() {
         const network = await gateway.getNetwork(channelid);
 
         // Get the smart contract from the network channel.
-        const contract = network.getContract('marblesp');
+        const contract = network.getContract('plantsp');
 
-        const result = await contract.submitTransaction('readMarble', 'marble600');
+        const result = await contract.submitTransaction('readPlant', 'plant100');
         console.log(JSON.parse(result.toString()));
 
         await gateway.disconnect();
