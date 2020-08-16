@@ -59,7 +59,7 @@ async function main() {
         // Get the smart contract from the network channel.
         const contract = network.getContract('plantsp');
 
-        const result = await contract.submitTransaction('readPlant', 'plant139');
+        const result = await contract.submitTransaction('queryPlantsByOwner', 'nancy');
         console.log(JSON.parse(result.toString()));
 
         await gateway.disconnect();

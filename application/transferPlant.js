@@ -32,12 +32,41 @@ const { Wallets, Gateway } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
+const addPlantsConfigFile = path.resolve(__dirname, 'addPlants.json');
+
+const colors=[ 'blue', 'red', 'yellow', 'green', 'white', 'purple' ];
+const owners=[ 'tom', 'fred', 'julie', 'james', 'janet', 'henry', 'alice', 'marie', 'sam', 'debra', 'nancy'];
+const sizes=[ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ];
+const docType='plant'
+
 const config = require('./config.json');
 const channelid = config.channelid;
 
 async function main() {
 
     try {
+
+        let nextPlantNumber;
+        let numberPlantsToAdd;
+        let addPlantsConfig;
+
+        // check to see if there is a config json defined
+        if (fs.existsSync(addPlantsConfigFile)) {
+            // read file the next plant and number of plants to create
+            let addPlantsConfigJSON = fs.readFileSync(addPlantsConfigFile, 'utf8');
+            addPlantsConfig = JSON.parse(addPlantsConfigJSON);
+            nextPlantNumber = addPlantsConfig.nextPlantNumber;
+            numberPlantsToAdd = addPlantsConfig.numberPlantsToAdd;
+        } else {
+            nextPlantNumber = 100;
+            numberPlantsToAdd = 20;
+            // create a default config and save
+            addPlantsConfig = new Object;
+            addPlantsConfig.nextPlantNumber = nextPlantNumber;
+            addPlantsConfig.numberPlantsToAdd = numberPlantsToAdd;
+            fs.writeFileSync(addPlantsConfigFile, JSON.stringify(addPlantsConfig, null, 2));
+        }
+
         // Parse the connection profile. This would be the path to the file downloaded
         // from the IBM Blockchain Platform operational console.
         const ccpPath = path.resolve(__dirname, '..', 'first-network', 'connection-org1.json');
@@ -59,8 +88,16 @@ async function main() {
         // Get the smart contract from the network channel.
         const contract = network.getContract('plantsp');
 
-        const result = await contract.submitTransaction('readPlant', 'plant139');
-        console.log(JSON.parse(result.toString()));
+        const transientData = {
+            name: 'plant139',
+            owner: 'chanhyeong'
+        };
+
+        const plant_owner = Buffer.from(JSON.stringify(transientData)).toString('base64');
+
+        await contract.createTransaction('transferPlant')
+            .setTransient({ plant_owner: plant_owner })
+            .submit();
 
         await gateway.disconnect();
 
