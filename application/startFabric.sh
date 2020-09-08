@@ -14,7 +14,7 @@ starttime=$(date +%s)
 CC_SRC_LANGUAGE=${1:-"go"}
 CC_SRC_LANGUAGE=`echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:]`
 CC_RUNTIME_LANGUAGE=golang
-CC_SRC_PATH=github.com/chaincode/go
+CC_SRC_PATH=github.com/chaincode/plants/go
 
 
 # clean the keystore
@@ -43,7 +43,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n plantsp \
+    -n plants \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -56,7 +56,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n plantsp \
+    -n plants \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -69,7 +69,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n plantsp \
+    -n plants \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -82,7 +82,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n plantsp \
+    -n plants \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -95,7 +95,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG3_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n plantsp \
+    -n plants \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -108,13 +108,12 @@ docker exec \
   peer chaincode instantiate \
     -o orderer.dmc.ajou.ac.kr:7050 \
     -C dmcchannel \
-    -n plantsp \
+    -n plants \
     -l "$CC_RUNTIME_LANGUAGE" \
     -v 1.0 \
     -c '{"Args":["init"]}' \
     -P "OR('Org1MSP.member','Org2MSP.member')" \
     --tls \
-    --collections-config /opt/gopath/src/github.com/chaincode/collections_config.json\
     --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
     --peerAddresses peer0.org1.dmc.ajou.ac.kr:7051 \
     --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE}

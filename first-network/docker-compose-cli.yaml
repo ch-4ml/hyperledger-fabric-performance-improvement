@@ -17,7 +17,6 @@ networks:
   byfn:
 
 services:
-
   orderer.dmc.ajou.ac.kr:
     extends:
       file:   base/docker-compose-base.yaml

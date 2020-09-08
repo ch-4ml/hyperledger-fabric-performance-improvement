@@ -38,7 +38,7 @@
 		"Org1MSP": {
 			"mspid": "Org1MSP",
 			"adminPrivateKey": {
-				"path": "/tmp/crypto/peerOrganizations/org1.dmc.ajou.ac.kr/users/Admin@org1.dmc.ajou.ac.kr/msp/keystore/d3243788e5fad8355d6202a2cea2a3cc35d304fa80c120fdcda451f142018474_sk"
+				"path": "/tmp/crypto/peerOrganizations/org1.dmc.ajou.ac.kr/users/Admin@org1.dmc.ajou.ac.kr/msp/keystore/f20b54b664179e5475c354b5b69d42ed4d04590c03f894a4900bb8009de1b5b2_sk"
 			},
 			"peers": ["peer0.org1.dmc.ajou.ac.kr"],
 			"signedCert": {
