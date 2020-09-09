@@ -14,14 +14,20 @@ const docType='plant'
 const config = require('./config.json');
 const channelid = config.channelid;
 
+const crypto = require('crypto');
+const hash = crypto.createHash('sha256');
+
 const mongoose = require('mongoose');
+mongoose.connect('mongodb://dmc:dmc1234@localhost:27017/dmc', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
+
 const db = mongoose.connection;
 db.on('error', console.error);
 db.once('open', function() {
     console.log("Connected to mongod server");
 });
-
-mongoose.connect('mongodb://dmc:dmc1234@localhost:27017/dmc');
 
 const Schema = mongoose.Schema;
 const plantSchema = new Schema({
@@ -100,12 +106,11 @@ async function main() {
                     return;
                 }
 
-                // 체인코드 추가 필요
+                hash.update(plant);
+                const data = hash.copy().digest('hex');
 
-                // Submit the 'initPlant' transaction to the smart contract, and wait for it
-                // to be committed to the ledger.
-                await contract.submitTransaction('initPlant', docType+counter, colors[randomColor], ''+sizes[randomSize], owners[randomOwner]);
-                console.log("Adding plant: " + docType + counter + "   owner:"  + owners[randomOwner] + "   color:" + colors[randomColor] + "   size:" + '' + sizes[randomSize] );
+                await contract.submitTransaction('initPlant', docType+counter, data);
+                console.log("Adding plant: " + docType + counter + "   hash:"  +  data);
             });
         }
 
