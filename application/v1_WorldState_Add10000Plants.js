@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const addPlantsConfigFile = path.resolve(__dirname, 'v1_WorldState_Add10000Plants.json');
+const recordTime = path.resolve(__dirname, 'recordTime.json');
 
 const colors=[ 'blue', 'red', 'yellow', 'green', 'white', 'purple' ];
 const owners=[ 'tom', 'fred', 'julie', 'james', 'janet', 'henry', 'alice', 'marie', 'sam', 'debra', 'nancy'];
@@ -81,13 +82,13 @@ async function main() {
         addPlantsConfig.nextPlantNumber = nextPlantNumber + numberPlantsToAdd;
 
         fs.writeFileSync(addPlantsConfigFile, JSON.stringify(addPlantsConfig, null, 2));
-
+        const endTime = new Date().getTime();
+        fs.writeFileSync(recordTime, JSON.stringify({ execution_time: endTime - startTime }, null, 2));
+        console.log(`실행 시간: ${endTime - startTime}`);
     } catch (error) {
         console.error(`Failed to submit transaction: ${error}`);
         process.exit(1);
     }
-    const endTime = new Date().getTime();
-    console.log(`실행 시간: ${endTime - startTime}`);
 }
 
 main();
