@@ -53,8 +53,6 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		return t.delete(stub, args)
 	} else if function == "readPlant" { //read a plant
 		return t.readPlant(stub, args)
-	} else if function == "queryPlantsByOwner" { //find plants for owner X using rich query
-		return t.queryPlantsByOwner(stub, args)
 	} else if function == "queryPlants" { //find plants based on an ad hoc rich query
 		return t.queryPlants(stub, args)
 	} else if function == "getHistoryForPlant" { //get history of values for a plant

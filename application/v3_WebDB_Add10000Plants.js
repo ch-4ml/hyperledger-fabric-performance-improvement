@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const addPlantsConfigFile = path.resolve(__dirname, 'v1_WorldState_Add10000Plants.json');
+const recordTime = path.resolve(__dirname, 'recordTime.json');
 
 const colors=[ 'blue', 'red', 'yellow', 'green', 'white', 'purple' ];
 const owners=[ 'tom', 'fred', 'julie', 'james', 'janet', 'henry', 'alice', 'marie', 'sam', 'debra', 'nancy'];
@@ -85,7 +86,7 @@ async function main() {
         const network = await gateway.getNetwork(channelid);
 
         // Get the smart contract from the network channel.
-        const contract = network.getContract('plants');
+        const contract = network.getContract('plantsw');
 
         for (var counter = nextPlantNumber; counter < nextPlantNumber + numberPlantsToAdd; counter++) {
 
@@ -99,19 +100,12 @@ async function main() {
             plant.size = sizes[randomSize];
             plant.owner = owners[randomOwner];
 
-            plant.save(function(err) {
-                if(err) {
-                    console.error(err);
-                    res.json({ result: 0 });
-                    return;
-                }
+            const result = await plant.save();
+            hash.update(JSON.stringify(plant));
+            const data = hash.copy().digest('hex');
 
-                hash.update(plant);
-                const data = hash.copy().digest('hex');
-
-                await contract.submitTransaction('initPlant', docType+counter, data);
-                console.log("Adding plant: " + docType + counter + "   hash:"  +  data);
-            });
+            await contract.submitTransaction('initPlant', docType+counter, data);
+            console.log("Adding plant: " + docType + counter + "   hash:"  +  data);
         }
 
         await gateway.disconnect();
@@ -119,13 +113,14 @@ async function main() {
         addPlantsConfig.nextPlantNumber = nextPlantNumber + numberPlantsToAdd;
 
         fs.writeFileSync(addPlantsConfigFile, JSON.stringify(addPlantsConfig, null, 2));
-
+        const endTime = new Date().getTime();
+        fs.writeFileSync(recordTime, JSON.stringify({ execution_time: endTime - startTime }, null, 2));
+        console.log(`실행 시간: ${endTime - startTime}`);
     } catch (error) {
         console.error(`Failed to submit transaction: ${error}`);
         process.exit(1);
     }
-    const endTime = new Date().getTime();
-    console.log(`실행 시간: ${endTime - startTime}`);
+
 }
 
 main();
