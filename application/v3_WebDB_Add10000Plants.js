@@ -4,7 +4,7 @@ const { Wallets, Gateway } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-const addPlantsConfigFile = path.resolve(__dirname, 'v1_WorldState_Add10000Plants.json');
+const addPlantsConfigFile = path.resolve(__dirname, 'v3_WebDB_Add10000Plants.json');
 const recordTime = path.resolve(__dirname, 'recordTime.json');
 
 const colors=[ 'blue', 'red', 'yellow', 'green', 'white', 'purple' ];
