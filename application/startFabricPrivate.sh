@@ -7,6 +7,8 @@
 # Exit on first error
 set -e pipefail
 
+# clean wallet
+rm -rf ./wallet
 
 # don't rewrite paths for Windows Git Bash users
 export MSYS_NO_PATHCONV=1
@@ -121,6 +123,9 @@ docker exec \
 
 echo "Waiting for instantiation request to be committed ..."
 sleep 10
+
+node ./enrollAdmin.js
+node ./registerUser.js
 
 cat <<EOF
 

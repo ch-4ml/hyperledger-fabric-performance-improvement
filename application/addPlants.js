@@ -21,7 +21,7 @@
  *
  *    {
  *        "nextPlantNumber": 100,
- *        "numberPlantsToAdd": 10
+ *        "numberPlantsToSet": 10
  *    }
  *
  */
@@ -32,7 +32,7 @@ const { Wallets, Gateway } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-const addPlantsConfigFile = path.resolve(__dirname, 'addPlants.json');
+const setPlantsConfigFile = path.resolve(__dirname, 'addPlants.json');
 
 const colors=[ 'blue', 'red', 'yellow', 'green', 'white', 'purple' ];
 const owners=[ 'tom', 'fred', 'julie', 'james', 'janet', 'henry', 'alice', 'marie', 'sam', 'debra', 'nancy'];
@@ -47,24 +47,24 @@ async function main() {
     try {
 
         let nextPlantNumber;
-        let numberPlantsToAdd;
-        let addPlantsConfig;
+        let numberPlantsToSet;
+        let setPlantsConfig;
 
         // check to see if there is a config json defined
-        if (fs.existsSync(addPlantsConfigFile)) {
+        if (fs.existsSync(setPlantsConfigFile)) {
             // read file the next plant and number of plants to create
-            let addPlantsConfigJSON = fs.readFileSync(addPlantsConfigFile, 'utf8');
-            addPlantsConfig = JSON.parse(addPlantsConfigJSON);
-            nextPlantNumber = addPlantsConfig.nextPlantNumber;
-            numberPlantsToAdd = addPlantsConfig.numberPlantsToAdd;
+            let setPlantsConfigJSON = fs.readFileSync(setPlantsConfigFile, 'utf8');
+            setPlantsConfig = JSON.parse(setPlantsConfigJSON);
+            nextPlantNumber = setPlantsConfig.nextPlantNumber;
+            numberPlantsToSet = setPlantsConfig.numberPlantsToSet;
         } else {
             nextPlantNumber = 100;
-            numberPlantsToAdd = 20;
+            numberPlantsToSet = 20;
             // create a default config and save
-            addPlantsConfig = new Object;
-            addPlantsConfig.nextPlantNumber = nextPlantNumber;
-            addPlantsConfig.numberPlantsToAdd = numberPlantsToAdd;
-            fs.writeFileSync(addPlantsConfigFile, JSON.stringify(addPlantsConfig, null, 2));
+            setPlantsConfig = new Object;
+            setPlantsConfig.nextPlantNumber = nextPlantNumber;
+            setPlantsConfig.numberPlantsToSet = numberPlantsToSet;
+            fs.writeFileSync(setPlantsConfigFile, JSON.stringify(setPlantsConfig, null, 2));
         }
 
         // Parse the connection profile. This would be the path to the file downloaded
@@ -88,7 +88,7 @@ async function main() {
         // Get the smart contract from the network channel.
         const contract = network.getContract('plantsp');
 
-        for (var counter = nextPlantNumber; counter < nextPlantNumber + numberPlantsToAdd; counter++) {
+        for (var counter = nextPlantNumber; counter < nextPlantNumber + numberPlantsToSet; counter++) {
 
             var randomColor = Math.floor(Math.random() * (6));
             var randomOwner = Math.floor(Math.random() * (11));
@@ -113,15 +113,15 @@ async function main() {
                 .submit();
 
             // await contract.submitTransaction('initPlant', docType+counter, colors[randomColor], ''+sizes[randomSize], owners[randomOwner]);
-            console.log("Adding plant: " + docType + counter + "   owner:"  + owners[randomOwner] + "   color:" + colors[randomColor] + "   size:" + '' + sizes[randomSize] );
+            console.log("Set a plant: " + docType + counter + "   owner:"  + owners[randomOwner] + "   color:" + colors[randomColor] + "   size:" + '' + sizes[randomSize] );
 
         }
 
         await gateway.disconnect();
 
-        addPlantsConfig.nextPlantNumber = nextPlantNumber + numberPlantsToAdd;
+        setPlantsConfig.nextPlantNumber = nextPlantNumber + numberPlantsToSet;
 
-        fs.writeFileSync(addPlantsConfigFile, JSON.stringify(addPlantsConfig, null, 2));
+        fs.writeFileSync(setPlantsConfigFile, JSON.stringify(setPlantsConfig, null, 2));
 
     } catch (error) {
         console.error(`Failed to submit transaction: ${error}`);

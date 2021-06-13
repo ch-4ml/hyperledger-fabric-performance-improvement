@@ -16,6 +16,8 @@ CC_SRC_LANGUAGE=`echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:]`
 CC_RUNTIME_LANGUAGE=golang
 CC_SRC_PATH=github.com/chaincode/plants/go
 
+# clean wallet
+rm -rf ./wallet
 
 # clean the keystore
 rm -rf ./hfc-key-store
@@ -120,6 +122,9 @@ docker exec \
 
 echo "Waiting for instantiation request to be committed ..."
 sleep 10
+
+node ./enrollAdmin.js
+node ./registerUser.js
 
 cat <<EOF
 

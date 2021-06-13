@@ -21,7 +21,7 @@
  *
  *    {
  *        "nextPlantNumber": 100,
- *        "numberPlantsToAdd": 10
+ *        "numberPlantsToSet": 10
  *    }
  *
  */
