@@ -49,11 +49,11 @@ const channelid = config.channelid;
 
 const unit =
   (process.argv[2] && process.argv[2].toUpperCase() === "K") ||
-  (process.argv[2] && process.argv[2].toUpperCase() === "M")
+    (process.argv[2] && process.argv[2].toUpperCase() === "M")
     ? process.argv[2].toUpperCase()
     : "";
 
-const mul = unit === "K" ? 1000 : unit === "M" ? 1000000 : 1;
+const mul = unit === "K" ? 1000 : unit === "M" ? 200000 : 1;
 
 async function main() {
   // 시작 시간

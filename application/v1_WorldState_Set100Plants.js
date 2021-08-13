@@ -18,7 +18,7 @@ const channelid = config.channelid;
 
 const unit =
   (process.argv[2] && process.argv[2].toUpperCase() === "K") ||
-  (process.argv[2] && process.argv[2].toUpperCase() === "M")
+    (process.argv[2] && process.argv[2].toUpperCase() === "M")
     ? process.argv[2].toUpperCase()
     : "";
 
@@ -94,14 +94,18 @@ async function main() {
 
       // Submit the 'initPlant' transaction to the smart contract, and wait for it
       // to be committed to the ledger.
-      await contract.submitTransaction(
+      const t1 = new Date().getTime();
+      const result = await contract.submitTransaction(
         "initPlant",
         docType + counter,
         colors[randomColor].repeat(mul),
         "" + sizes[randomSize] * mul,
         owners[randomOwner].repeat(mul)
       );
+      const t2 = new Date().getTime();
+      console.log(t2 - t1);
       console.log(`Set a plant: ${docType} ${counter} Done`);
+      console.log(String(result));
     }
 
     await gateway.disconnect();

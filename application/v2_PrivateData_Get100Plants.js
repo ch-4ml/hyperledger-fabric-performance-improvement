@@ -46,6 +46,12 @@ const docType = "plant";
 const config = require("./config.json");
 const channelid = config.channelid;
 
+const unit =
+  (process.argv[2] && process.argv[2].toUpperCase() === "K") ||
+    (process.argv[2] && process.argv[2].toUpperCase() === "M")
+    ? process.argv[2].toUpperCase()
+    : "";
+
 async function main() {
   // 시작 시간
   const startTime = new Date().getTime();
