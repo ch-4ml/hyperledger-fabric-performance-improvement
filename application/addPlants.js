@@ -113,7 +113,7 @@ async function main() {
                 .submit();
 
             // await contract.submitTransaction('initPlant', docType+counter, colors[randomColor], ''+sizes[randomSize], owners[randomOwner]);
-            console.log("Set a plant: " + docType + counter + "   owner:"  + owners[randomOwner] + "   color:" + colors[randomColor] + "   size:" + '' + sizes[randomSize] );
+            console.log(`Set a plant: ${docType} ${counter} Done`);
 
         }
 

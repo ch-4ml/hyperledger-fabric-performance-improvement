@@ -127,6 +127,8 @@ sleep 10
 node ./enrollAdmin.js
 node ./registerUser.js
 
+rm ./v2_PrivateData_Set100Plants.json
+
 cat <<EOF
 
 Total setup execution time : $(($(date +%s) - starttime)) secs ...

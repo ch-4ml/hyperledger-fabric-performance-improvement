@@ -2,7 +2,7 @@
   "set": 249346,
   "get": 1052,
   "update": 229218,
-  "largeSet": 219691,
-  "largeGet": 1082,
-  "largeUpdate": 217417
+  "kbsSet": 219691,
+  "kbsGet": 1082,
+  "kbsUpdate": 217417
 }

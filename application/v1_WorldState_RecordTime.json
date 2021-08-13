@@ -1,8 +1,10 @@
 {
-  "set": 221461,
+  "set": 216690,
   "get": 924,
   "update": 220818,
-  "largeSet": 211796,
-  "largeGet": 925,
-  "largeUpdate": 211322
+  "kbsSet": 212708,
+  "kbsGet": 925,
+  "kbsUpdate": 211322,
+  "setK": 222723,
+  "setM": 99179
 }
