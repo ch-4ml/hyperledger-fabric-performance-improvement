@@ -8,14 +8,10 @@
   "dependencies": {
     "body-parser": "~1.0.0",
     "cookie-parser": "~1.0.1",
-    "debug": "~0.7.4",
-    "ejs": "~0.8.5",
-    "express": "~4.0.0",
     "fabric-ca-client": "^2.2.0",
     "fabric-network": "^2.2.0",
     "ipfs-http-client": "^50.1.1",
     "mongoose": "^5.10.5",
-    "morgan": "~1.0.0",
     "node-fetch": "^2.6.1",
     "static-favicon": "~1.0.0"
   }
