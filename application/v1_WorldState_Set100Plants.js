@@ -94,18 +94,26 @@ async function main() {
 
       // Submit the 'initPlant' transaction to the smart contract, and wait for it
       // to be committed to the ledger.
+
       const t1 = new Date().getTime();
-      const result = await contract.submitTransaction(
+
+      await contract.submitTransaction(
         "initPlant",
         docType + counter,
         colors[randomColor].repeat(mul),
         "" + sizes[randomSize] * mul,
         owners[randomOwner].repeat(mul)
       );
+
+      // cache에 넣고 
+      // tx 요청 수
+      // batch size
+      // 두 개 변경하면서 테스트해볼 것
+      // 체인코드 변경 > peer의 buffer에 저장
+
       const t2 = new Date().getTime();
       console.log(t2 - t1);
       console.log(`Set a plant: ${docType} ${counter} Done`);
-      console.log(String(result));
     }
 
     await gateway.disconnect();
