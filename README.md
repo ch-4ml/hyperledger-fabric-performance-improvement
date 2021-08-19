@@ -32,3 +32,25 @@ Keywords: hyperledger performance evaluation, hyperledger side DB
 
 - **20. 08. 05**
 - **20. 08. 08 - 네트워크 구조 수정**
+
+### GO
+
+go mod tidy // 모듈 정리
+
+### Hyperledger Fabric 2.2로 변경
+
+Etcdraft로 돌릴건데 Orderer org crypto를 ca로 생성할 경우 옵션 변경 필요 (fabric-ca/registerEnroll.sh)
+
+수정 완료 했고 CA로 crypto를 ca로 enroll,register 해서 정상적으로 구동까지는 완료
+
+이게 잘 돌아가는지는 테스트를 좀 해봐야 알 것 같음
+
+```
+.../network$ ./network down
+.../network$ ./network up createChannel -ca -s couchdb
+.../application$ ./deployCC
+```
+
+체인코드 설치 배포까지 잘 되는데 실행이 안되고 있음
+
+원인 파악 중

@@ -53,8 +53,8 @@ P0PORT=7051
 P1PORT=8051
 P2PORT=9051
 CAPORT=7054
-PEERPEM=crypto-config/peerOrganizations/org1.dmc.ajou.ac.kr/tlsca/tlsca.org1.dmc.ajou.ac.kr-cert.pem
-CAPEM=crypto-config/peerOrganizations/org1.dmc.ajou.ac.kr/ca/ca.org1.dmc.ajou.ac.kr-cert.pem
+PEERPEM=crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem
+CAPEM=crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
 
 echo "$(json_ccp $PEERPEM $CAPEM $ORG $P0PORT $P1PORT $P2PORT $CAPORT)" > connection-org1.json
 echo "$(yaml_ccp $PEERPEM $CAPEM $ORG $P0PORT $P1PORT $P2PORT $CAPORT)" > connection-org1.yaml
@@ -62,8 +62,8 @@ echo "$(yaml_ccp $PEERPEM $CAPEM $ORG $P0PORT $P1PORT $P2PORT $CAPORT)" > connec
 ORG=2
 P0PORT=10051
 CAPORT=8054
-PEERPEM=crypto-config/peerOrganizations/org2.dmc.ajou.ac.kr/tlsca/tlsca.org2.dmc.ajou.ac.kr-cert.pem
-CAPEM=crypto-config/peerOrganizations/org2.dmc.ajou.ac.kr/ca/ca.org2.dmc.ajou.ac.kr-cert.pem
+PEERPEM=crypto-config/peerOrganizations/org2.example.com/tlsca/tlsca.org2.example.com-cert.pem
+CAPEM=crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem
 
 echo "$(json_ccp $PEERPEM $CAPEM $ORG $P0PORT $CAPORT)" > connection-org2.json
 echo "$(yaml_ccp $PEERPEM $CAPEM $ORG $P0PORT $CAPORT)" > connection-org2.yaml
@@ -71,8 +71,8 @@ echo "$(yaml_ccp $PEERPEM $CAPEM $ORG $P0PORT $CAPORT)" > connection-org2.yaml
 ORG=3
 P0PORT=11051
 CAPORT=9054
-PEERPEM=crypto-config/peerOrganizations/org3.dmc.ajou.ac.kr/tlsca/tlsca.org3.dmc.ajou.ac.kr-cert.pem
-CAPEM=crypto-config/peerOrganizations/org3.dmc.ajou.ac.kr/ca/ca.org3.dmc.ajou.ac.kr-cert.pem
+PEERPEM=crypto-config/peerOrganizations/org3.example.com/tlsca/tlsca.org3.example.com-cert.pem
+CAPEM=crypto-config/peerOrganizations/org3.example.com/ca/ca.org3.example.com-cert.pem
 
 echo "$(json_ccp $PEERPEM $CAPEM $ORG $P0PORT $CAPORT)" > connection-org3.json
 echo "$(yaml_ccp $PEERPEM $CAPEM $ORG $P0PORT $CAPORT)" > connection-org3.yaml
