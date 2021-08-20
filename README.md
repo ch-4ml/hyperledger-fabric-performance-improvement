@@ -21,7 +21,7 @@ Keywords: hyperledger performance evaluation, hyperledger side DB
 
 네트워크 구동, 체인코드 설치 및 배포가 완료되면 그에 맞는 측정 파일을 실행
 
-`node v1_WorldState_Set100Plants.js [arg]`
+`node v1_WorldState_Set100Assets.js [arg]`
 
 인자로는 K(k), M(m)을 받으며 각각 KiloBytes, MegaBytes를 의미함
 
@@ -51,6 +51,9 @@ Etcdraft로 돌릴건데 Orderer org crypto를 ca로 생성할 경우 옵션 변
 .../application$ ./deployCC
 ```
 
-체인코드 설치 배포까지 잘 되는데 실행이 안되고 있음
+Create -> Batch
+Create -> Update
 
-원인 파악 중
+Batch와 Update 비교
+
+이런 식으로 테스트하면 됨

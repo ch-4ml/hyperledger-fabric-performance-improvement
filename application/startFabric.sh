@@ -25,14 +25,16 @@ rm -rf ./hfc-key-store
 
 # launch network; create channel and join peer to channel
 pushd ../network
+
 ./network.sh down
-./network.sh up createChannel -s couchdb -o etcdraft
+./network.sh up createChannel -ca -s couchdb
 popd
 
-node ./enrollAdmin.js
-node ./registerUser.js
+./deployCC.sh
 
-rm ./setConfig.json
+if [ -f "setConfig.json" ]; then
+  rm ./setConfig.json
+fi
 
 cat <<EOF
 

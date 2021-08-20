@@ -4,54 +4,39 @@ const { Wallets, Gateway } = require("fabric-network");
 const fs = require("fs");
 const path = require("path");
 
-const setPlantsConfigFile = path.resolve(__dirname, "setConfig.json");
+const setAssetsConfigFile = path.resolve(__dirname, "setConfig.json");
 const recordTimeFile = path.resolve(__dirname, "record.json");
 
-const { values } = require("./data/assets");
 const docType = "asset";
 
 const config = require("./config.json");
 const channelid = config.channelid;
 
-const unit =
-  (process.argv[2] && process.argv[2].toUpperCase() === "K") ||
-  (process.argv[2] && process.argv[2].toUpperCase() === "M")
-    ? process.argv[2].toUpperCase()
-    : "";
-
-const mul = unit === "K" ? 1000 : unit === "M" ? 1000000 : 1;
-
 async function main() {
-  // 시작 시간
   const startTime = new Date().getTime();
 
   try {
-    let nextPlantNumber;
-    let numberPlantsToSet;
-    let setPlantsConfig;
+    let nextAssetNumber;
+    let numberAssetsToSet;
+    let setAssetsConfig;
 
-    // check to see if there is a config json defined
-    if (fs.existsSync(setPlantsConfigFile)) {
-      // read file the next plant and number of plants to create
-      let setPlantsConfigJSON = fs.readFileSync(setPlantsConfigFile, "utf8");
-      setPlantsConfig = JSON.parse(setPlantsConfigJSON);
-      nextPlantNumber = setPlantsConfig.nextPlantNumber;
-      numberPlantsToSet = setPlantsConfig.numberPlantsToSet;
+    if (fs.existsSync(setAssetsConfigFile)) {
+      let setAssetsConfigJSON = fs.readFileSync(setAssetsConfigFile, "utf8");
+      setAssetsConfig = JSON.parse(setAssetsConfigJSON);
+      nextAssetNumber = setAssetsConfig.nextAssetNumber;
+      numberAssetsToSet = setAssetsConfig.numberAssetsToSet;
     } else {
-      nextPlantNumber = 1;
-      numberPlantsToSet = 100;
-      // create a default config and save
-      setPlantsConfig = new Object();
-      setPlantsConfig.nextPlantNumber = nextPlantNumber;
-      setPlantsConfig.numberPlantsToSet = numberPlantsToSet;
+      nextAssetNumber = 1;
+      numberAssetsToSet = 100;
+      setAssetsConfig = new Object();
+      setAssetsConfig.nextAssetNumber = nextAssetNumber;
+      setAssetsConfig.numberAssetsToSet = numberAssetsToSet;
       fs.writeFileSync(
-        setPlantsConfigFile,
-        JSON.stringify(setPlantsConfig, null, 2)
+        setAssetsConfigFile,
+        JSON.stringify(setAssetsConfig, null, 2)
       );
     }
 
-    // Parse the connection profile. This would be the path to the file downloaded
-    // from the IBM Blockchain Platform operational console.
     const ccpPath = path.resolve(
       __dirname,
       "..",
@@ -63,13 +48,9 @@ async function main() {
     );
     const ccp = JSON.parse(fs.readFileSync(ccpPath, "utf8"));
 
-    // Configure a wallet. This wallet must already be primed with an identity that
-    // the application can use to interact with the peer node.
     const walletPath = path.resolve(__dirname, "wallet");
     const wallet = await Wallets.newFileSystemWallet(walletPath);
 
-    // Create a new gateway, and connect to the gateway peer node(s). The identity
-    // specified must already exist in the specified wallet.
     const gateway = new Gateway();
     await gateway.connect(ccp, {
       wallet,
@@ -77,31 +58,29 @@ async function main() {
       discovery: { enabled: true, asLocalhost: true },
     });
 
-    // Get the network channel that the smart contract is deployed to.
     const network = await gateway.getNetwork(channelid);
-
-    // Get the smart contract from the network channel.
     const contract = network.getContract("sacc");
 
+    const reps = process.argv[3]
+      ? numberAssetsToSet * (process.argv[3] - 1)
+      : 0;
     for (
-      let counter = nextPlantNumber;
-      counter < nextPlantNumber + numberPlantsToSet;
+      let counter = nextAssetNumber - numberAssetsToSet;
+      counter < nextAssetNumber + reps;
       counter++
     ) {
-      const randomValue = Math.floor(Math.random() * values.length);
-
-      // Submit the 'initPlant' transaction to the smart contract, and wait for it
-      // to be committed to the ledger.
+      const assetNumber =
+        process.argv[2] && process.argv[2].toUpperCase() === "R"
+          ? Math.floor(
+              Math.random() *
+                (nextAssetNumber - (nextAssetNumber - numberAssetsToSet)) +
+                (nextAssetNumber - numberAssetsToSet)
+            )
+          : counter;
 
       const t1 = new Date().getTime();
 
-      const result = await contract.evaluateTransaction(
-        "batch",
-        docType + counter,
-        values[randomValue].repeat(mul)
-      );
-
-      console.log(result);
+      await contract.submitTransaction("batch", docType + assetNumber);
 
       // cache에 넣고
       // tx 요청 수
@@ -111,20 +90,14 @@ async function main() {
 
       const t2 = new Date().getTime();
       console.log(t2 - t1);
-      console.log(`Set a plant: ${docType} ${counter} Done`);
+      console.log(`Update a asset: ${docType} ${assetNumber} Done`);
     }
 
     await gateway.disconnect();
 
-    setPlantsConfig.nextPlantNumber = nextPlantNumber + numberPlantsToSet;
-
-    fs.writeFileSync(
-      setPlantsConfigFile,
-      JSON.stringify(setPlantsConfig, null, 2)
-    );
     const endTime = new Date().getTime();
     const recordTime = JSON.parse(fs.readFileSync(recordTimeFile, "utf8"));
-    recordTime[`set${unit}`] = endTime - startTime;
+    recordTime[`batch`] = endTime - startTime;
 
     fs.writeFileSync(recordTimeFile, JSON.stringify(recordTime, null, 2));
     console.log(`실행 시간: ${endTime - startTime}`);
