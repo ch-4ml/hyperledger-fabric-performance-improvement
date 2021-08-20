@@ -74,6 +74,8 @@ async function main() {
     // Get the smart contract from the network channel.
     const contract = network.getContract("sacc");
 
+    let total = 0;
+
     for (
       let counter = nextAssetNumber - numberAssetsToSet;
       counter < nextAssetNumber;
@@ -87,7 +89,11 @@ async function main() {
         docType + counter.toString()
       );
       console.log(`Read a asset: ${docType} ${counter} Done: ${result}`);
+      const json = JSON.parse(result);
+      total += json.value;
     }
+
+    console.log(`total value: ${total}`);
 
     await gateway.disconnect();
 

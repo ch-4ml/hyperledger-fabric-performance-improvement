@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
@@ -22,10 +23,9 @@ type SimpleAsset struct {
 var batchMap map[string]int
 var batchKeyBuffer []string
 var batchCount int
+const BATCH_SIZE int = 25
 
 func (s *SmartContract) Batch(ctx contractapi.TransactionContextInterface, key string) (string, error) {
-	const BATCH_SIZE int = 25
-
 	// key가 batchMap에 있는지 검사하고 있으면 value update, 없으면 해당 key, value 추가
 	_, isKeyExists := batchMap[key]
 	if !isKeyExists {
@@ -41,13 +41,11 @@ func (s *SmartContract) Batch(ctx contractapi.TransactionContextInterface, key s
 
 	// batchCount에 count
 	batchCount += 1
-	// batchCountStr := strconv.Itoa(batchCount)
-	// batchKeyBufferToStr := strings.Join(batchKeyBuffer, " ")
-	// batchMapStrByKey := strconv.Itoa(batchMap[key])
 
 	// batchCount가 지정한 횟수에 도달하면
 	if batchCount >= BATCH_SIZE {
 		// batchKeyBuffer를 이용해서 loop를 만들고 batchMap으로부터 값을 조회하여 putState
+
 		for i := 0; i < len(batchKeyBuffer); i++ {
 			asset, _ := s.Read(ctx, batchKeyBuffer[i])
 			asset.Value += batchMap[batchKeyBuffer[i]]
@@ -60,6 +58,7 @@ func (s *SmartContract) Batch(ctx contractapi.TransactionContextInterface, key s
 		batchCount = 0
 		batchKeyBuffer = nil
 	}
+
 	return "", nil
 }
 
