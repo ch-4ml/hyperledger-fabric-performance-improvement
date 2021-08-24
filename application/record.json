@@ -1,7 +1,10 @@
 {
-  "set": 8060,
+  "set": 8157,
   "setM": 31218,
-  "get": 2622,
-  "update": 44351,
-  "batch": 35523
+  "get": 762,
+  "update": 8406,
+  "batch": 7206,
+  "batchundefinedundefined": 8366,
+  "batchRundefined": 8324,
+  "batchR500": 6903091
 }

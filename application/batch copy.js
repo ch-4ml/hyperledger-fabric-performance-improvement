@@ -81,43 +81,31 @@ async function main() {
             )
           : counter;
 
+      const t1 = new Date().getTime();
+
       const flush = async () => {
-        let countFlushed = 0;
-        while (countFlushed < 3) {
-          const len = await contract.submitTransaction("flush");
-          console.log(len.toString());
-          if (len.toString() !== "0") {
-            countFlushed++;
-            console.log(`buffer flushed ${countFlushed}`);
-          }
-        }
-        await gateway.disconnect();
-
-        const endTime = new Date().getTime();
-        const recordTime = JSON.parse(fs.readFileSync(recordTimeFile, "utf8"));
-        recordTime[`batch${process.argv[2]}${process.argv[3]}`] =
-          endTime - startTime;
-
-        fs.writeFileSync(recordTimeFile, JSON.stringify(recordTime, null, 2));
-        console.log(`실행 시간: ${endTime - startTime}`);
+        await contract.submitTransaction("flush");
+        console.log("buffer flushed");
       };
 
       if (flushTimer) clearTimeout(flushTimer);
+      await contract.submitTransaction("batch", docType + assetNumber);
 
-      const t1 = new Date().getTime();
-
-      const result = await contract.submitTransaction(
-        "batch",
-        docType + assetNumber
-      );
-      console.log(result.toString());
-
-      flushTimer = setTimeout(await flush, 1000);
+      flushTimer = setTimeout(await flush, 2000);
 
       const t2 = new Date().getTime();
       console.log(t2 - t1);
       console.log(`Update a asset: ${docType} ${assetNumber} Done`);
     }
+
+    await gateway.disconnect();
+
+    const endTime = new Date().getTime();
+    const recordTime = JSON.parse(fs.readFileSync(recordTimeFile, "utf8"));
+    recordTime[`batch`] = endTime - startTime;
+
+    fs.writeFileSync(recordTimeFile, JSON.stringify(recordTime, null, 2));
+    console.log(`실행 시간: ${endTime - startTime}`);
   } catch (error) {
     console.error(`Failed to submit transaction: ${error}`);
     process.exit(1);

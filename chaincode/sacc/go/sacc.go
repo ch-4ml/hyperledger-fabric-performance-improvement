@@ -3,8 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"time"
-
+	"strings"
+	// "time"
+	"strconv"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
@@ -24,9 +25,13 @@ var batchMap map[string]int
 var batchKeyBuffer []string
 var batchCount int
 const BATCH_SIZE int = 25
+// const BATCH_TIME time.Duration = 150
+// var batchTimer *time.Timer
 
 func (s *SmartContract) Batch(ctx contractapi.TransactionContextInterface, key string) (string, error) {
 	// key가 batchMap에 있는지 검사하고 있으면 value update, 없으면 해당 key, value 추가
+	// batchTimer.Stop()
+	
 	_, isKeyExists := batchMap[key]
 	if !isKeyExists {
 		batchMap[key] = 1
@@ -44,22 +49,35 @@ func (s *SmartContract) Batch(ctx contractapi.TransactionContextInterface, key s
 
 	// batchCount가 지정한 횟수에 도달하면
 	if batchCount >= BATCH_SIZE {
-		// batchKeyBuffer를 이용해서 loop를 만들고 batchMap으로부터 값을 조회하여 putState
-
-		for i := 0; i < len(batchKeyBuffer); i++ {
-			asset, _ := s.Read(ctx, batchKeyBuffer[i])
-			asset.Value += batchMap[batchKeyBuffer[i]]
-			assetAsBytes, _ := json.Marshal(asset)
-			// === Save asset to state ===
-			ctx.GetStub().PutState(batchKeyBuffer[i], assetAsBytes)
-
-			batchMap[batchKeyBuffer[i]] = 0
-		}
-		batchCount = 0
-		batchKeyBuffer = nil
+		s.Flush(ctx)
+		// batchTimer.Stop()
 	}
 
-	return "", nil
+	// batchTimer.Reset(time.Millisecond * BATCH_TIME)
+	// go func() {
+	// 	<-batchTimer.C
+	// 	s.Flush(ctx)
+	// }()
+
+	return strings.Join(batchKeyBuffer, " "), nil
+}
+
+func (s *SmartContract) Flush(ctx contractapi.TransactionContextInterface) (string, error) {
+	// batchKeyBuffer를 이용해서 loop를 만들고 batchMap으로부터 값을 조회하여 putState
+	batchKeyBufferLength := len(batchKeyBuffer)
+	for i := 0; i < len(batchKeyBuffer); i++ {
+		asset, _ := s.Read(ctx, batchKeyBuffer[i])
+		asset.Value += batchMap[batchKeyBuffer[i]]
+		assetAsBytes, _ := json.Marshal(asset)
+		// === Save asset to state ===
+		ctx.GetStub().PutState(batchKeyBuffer[i], assetAsBytes)
+
+		batchMap[batchKeyBuffer[i]] = 0
+	}
+	batchCount = 0
+	batchKeyBuffer = nil
+	flushedKeyLength := strconv.Itoa(batchKeyBufferLength)
+	return flushedKeyLength, nil
 }
 
 // ============================================================
@@ -140,6 +158,7 @@ func contains(s []string, e string) bool {
 func main() {
 	batchCount = 0
 	batchMap = make(map[string]int)
+	// batchTimer = time.NewTimer(9999)
 	
 	chaincode, err := contractapi.NewChaincode(new(SmartContract))
 
