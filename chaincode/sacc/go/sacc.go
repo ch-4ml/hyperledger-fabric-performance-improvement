@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
-	// "time"
-	"strconv"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 
@@ -24,9 +22,20 @@ type SimpleAsset struct {
 var batchMap map[string]int
 var batchKeyBuffer []string
 var batchCount int
+// var peerId int
 const BATCH_SIZE int = 25
+
 // const BATCH_TIME time.Duration = 150
 // var batchTimer *time.Timer
+
+// func (s *SmartContract) SetID(ctx contractapi.TransactionContextInterface, id int) (bool, error) {
+// 	if peerId == 0 {
+// 		peerId = id
+// 		return true, nil
+// 	} else {
+// 		return false, nil
+// 	}
+// }
 
 func (s *SmartContract) Batch(ctx contractapi.TransactionContextInterface, key string) (string, error) {
 	// key가 batchMap에 있는지 검사하고 있으면 value update, 없으면 해당 key, value 추가
@@ -64,7 +73,11 @@ func (s *SmartContract) Batch(ctx contractapi.TransactionContextInterface, key s
 
 func (s *SmartContract) Flush(ctx contractapi.TransactionContextInterface) (string, error) {
 	// batchKeyBuffer를 이용해서 loop를 만들고 batchMap으로부터 값을 조회하여 putState
-	batchKeyBufferLength := len(batchKeyBuffer)
+	// batchKeyBufferLength := len(batchKeyBuffer)
+	// strPeerId := strconv.Itoa(peerId)
+	// if batchKeyBufferLength == 0 {
+	// 	return strPeerId, nil
+	// }
 	for i := 0; i < len(batchKeyBuffer); i++ {
 		asset, _ := s.Read(ctx, batchKeyBuffer[i])
 		asset.Value += batchMap[batchKeyBuffer[i]]
@@ -76,8 +89,7 @@ func (s *SmartContract) Flush(ctx contractapi.TransactionContextInterface) (stri
 	}
 	batchCount = 0
 	batchKeyBuffer = nil
-	flushedKeyLength := strconv.Itoa(batchKeyBufferLength)
-	return flushedKeyLength, nil
+	return "", nil
 }
 
 // ============================================================
@@ -158,6 +170,7 @@ func contains(s []string, e string) bool {
 func main() {
 	batchCount = 0
 	batchMap = make(map[string]int)
+	// peerId = 0
 	// batchTimer = time.NewTimer(9999)
 	
 	chaincode, err := contractapi.NewChaincode(new(SmartContract))
