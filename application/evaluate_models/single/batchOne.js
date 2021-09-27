@@ -7,8 +7,6 @@ const path = require("path");
 const setAssetsConfigFile = path.resolve(__dirname, "setConfig.json");
 const recordTimeFile = path.resolve(__dirname, "record.json");
 
-const BATCH_SIZE = 25;
-
 const docType = "asset";
 
 const config = require("./config.json");
@@ -39,6 +37,8 @@ async function main() {
     const ccpPath = path.resolve(
       __dirname,
       "..",
+      "..",
+      "..",
       "network",
       "organizations",
       "peerOrganizations",
@@ -63,7 +63,6 @@ async function main() {
     const reps = process.argv[3] ? numberAssetsToSet * (process.argv[3] - 1) : 0;
 
     let flushTimer;
-    let batch = [];
 
     for (let counter = nextAssetNumber - numberAssetsToSet; counter < nextAssetNumber + reps; counter++) {
       const assetNumber =
@@ -73,30 +72,35 @@ async function main() {
                 (nextAssetNumber - numberAssetsToSet)
             )
           : counter;
-      const index = batch.findIndex((item) => item.key === `${docType}${assetNumber}`);
-
-      if (index > -1) {
-        batch[index].value += 1;
-      } else {
-        batch.push({ key: `${docType}${assetNumber}`, value: 1 });
-      }
-
-      console.log(batch);
 
       const flush = async () => {
-        const result = await contract.submitTransaction("batch", JSON.stringify(batch));
-        batch = [];
+        let flushedId = [];
+        while (flushedId.length < 3) {
+          const id = await contract.submitTransaction("flush");
+          const strId = id.toString();
+          if (!flushedId.includes(strId)) {
+            flushedId.push(strId);
+            console.log(flushedId);
+            console.log(`buffer flushed ${strId}`);
+          }
+        }
       };
 
-      console.log(batch.length);
-
-      if (batch.length >= BATCH_SIZE) await flush();
-
       if (flushTimer) clearTimeout(flushTimer);
+
+      const t1 = new Date().getTime();
+
       flushTimer = setTimeout(flush, 500);
 
+      const result = await contract.submitTransaction("batch", docType + assetNumber);
+      console.log(result.toString());
+
+      const t2 = new Date().getTime();
+      console.log(t2 - t1);
       console.log(`Update a asset: ${docType} ${assetNumber} Done`);
     }
+
+    // await gateway.disconnect();
 
     const endTime = new Date().getTime();
     const recordTime = JSON.parse(fs.readFileSync(recordTimeFile, "utf8"));
@@ -104,9 +108,6 @@ async function main() {
 
     fs.writeFileSync(recordTimeFile, JSON.stringify(recordTime, null, 2));
     console.log(`실행 시간: ${endTime - startTime}`);
-    setTimeout(async () => {
-      await gateway.disconnect();
-    }, 2000);
   } catch (error) {
     console.error(`Failed to submit transaction: ${error}`);
     process.exit(1);
