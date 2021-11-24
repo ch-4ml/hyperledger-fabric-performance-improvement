@@ -15,7 +15,7 @@ CC_SRC_LANGUAGE=${1:-"go"}
 CC_SRC_LANGUAGE=`echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:]`
 
 CC_RUNTIME_LANGUAGE=golang
-CC_SRC_PATH=github.com/chaincode/sacc/go
+CC_SRC_PATH=github.com/chaincode/fixed-asset/go
 
 # clean wallet
 rm -rf ./wallet
