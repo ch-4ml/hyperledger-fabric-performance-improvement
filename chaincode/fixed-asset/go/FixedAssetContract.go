@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"fabric/api/fixed-asset/go/assets"
-	"fabric/api/fixed-asset/go/utils"
+	"fixed-asset/assets"
+	"fixed-asset/utils"
 	"fmt"
 
 	"github.com/hyperledger/fabric-chaincode-go/shim"
